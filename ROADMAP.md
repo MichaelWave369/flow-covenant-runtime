@@ -46,9 +46,7 @@
 
 - Step-by-step wizard for the full FCR loop
 - Guided completion meter
-- Context -> finish flow for first-time users and facilitators
 - Guided session save and replay support
-- Additional example scenarios
 - Keyboard-friendly button flow and improved disabled states
 
 ## v0.7 — Practice Evidence Pack
@@ -71,16 +69,17 @@
 
 ## v0.9 — Testing and Hardening
 
-- Add Vitest smoke tests for receipt, packet, and reversibility helpers
-- Add schema examples and validation fixtures
-- Add no-network / local-first guard notes
-- Add pre-release checklist for v1.0
-- Improve empty-state and import error feedback
+- Smoke check script for claim boundary, runtime loop, schemas, fixtures, and docs
+- Local-first guard script
+- GitHub Pages hardening checks before build
+- Hardening fixtures for claim boundary, release rollback, and community promise scenarios
+- Local-first guard notes
+- v1.0 pre-release checklist
 
-## v1.0 — Public Stable
+## v1.0 — Public Stable Candidate
 
-- Stable public app structure
-- Public-safe docs complete
-- Reproducible build and release notes
-- Example library and facilitator packet ready for workshops
-- Claim boundary and local-first guarantees reviewed
+- Run and verify v0.9 hardening checks in Actions
+- Bump app runtime constant to 1.0.0 after the live checklist passes
+- Create release notes and public stable tag
+- Review live app for keyboard flow, empty states, import feedback, and print behavior
+- Confirm claim boundary and local-first guarantees one final time
