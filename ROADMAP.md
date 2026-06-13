@@ -30,8 +30,9 @@
 
 - Repair-plan builder
 - Reversibility helper
-- Scenario templates by domain
-- Better receipt validation
+- Domain repair templates
+- Repair plan schema
+- Receipt schema extension
 
 ## v0.5 — Public Practice Pack
 
@@ -39,3 +40,10 @@
 - Workshop guide
 - Public decision-card deck
 - Accessibility pass
+
+## v0.6 — Guided Mode
+
+- Step-by-step wizard
+- Better validation feedback
+- More example scenarios
+- Keyboard-first polish
