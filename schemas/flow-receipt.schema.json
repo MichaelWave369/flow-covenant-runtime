@@ -3,12 +3,35 @@
   "$id": "https://michaelwave369.github.io/flow-covenant-runtime/schemas/flow-receipt.schema.json",
   "title": "Flow Covenant Receipt",
   "type": "object",
-  "required": ["id", "createdAt", "model", "version", "scenario", "signal", "invitation", "affectedParties", "consent", "alignment", "action", "outcome", "renewal", "evidence", "assumptions", "unknowns", "gateSummary", "claimBoundary"],
+  "required": [
+    "id",
+    "createdAt",
+    "model",
+    "version",
+    "scenarioType",
+    "scenario",
+    "signal",
+    "invitation",
+    "affectedParties",
+    "consent",
+    "alignment",
+    "action",
+    "outcome",
+    "renewal",
+    "evidence",
+    "assumptions",
+    "unknowns",
+    "gateSummary",
+    "gateCounts",
+    "shareUrl",
+    "claimBoundary"
+  ],
   "properties": {
     "id": { "type": "string", "pattern": "^fcr-[a-f0-9]{8}$" },
     "createdAt": { "type": "string", "format": "date-time" },
     "model": { "const": "Flow Covenant Runtime" },
     "version": { "type": "string" },
+    "scenarioType": { "type": "string" },
     "scenario": { "type": "string" },
     "signal": { "type": "string" },
     "invitation": { "type": "string" },
@@ -21,7 +44,29 @@
     "evidence": { "type": "string" },
     "assumptions": { "type": "string" },
     "unknowns": { "type": "string" },
-    "gateSummary": { "type": "array" },
+    "gateSummary": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gateId", "status", "note"],
+        "properties": {
+          "gateId": { "type": "string" },
+          "status": { "enum": ["pass", "watch", "block"] },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "gateCounts": {
+      "type": "object",
+      "required": ["pass", "watch", "block", "total"],
+      "properties": {
+        "pass": { "type": "integer" },
+        "watch": { "type": "integer" },
+        "block": { "type": "integer" },
+        "total": { "type": "integer" }
+      }
+    },
+    "shareUrl": { "type": "string" },
     "claimBoundary": { "type": "string", "pattern": "physical laws" }
   },
   "additionalProperties": true
