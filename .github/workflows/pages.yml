@@ -26,10 +26,8 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: npm install
-      - name: Smoke check
-        run: node scripts/smoke-check.mjs
-      - name: Local-first guard
-        run: node scripts/local-first-guard.mjs
+      - name: v1 candidate checks
+        run: npm run check
       - name: Build
         run: npm run build
       - name: Setup Pages
