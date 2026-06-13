@@ -20,7 +20,7 @@ FCR keeps boundaries, evidence, law, accountability, consent, and repair visible
 
 ## Interactive app
 
-The v0.6 app includes:
+The v0.7 app includes:
 
 - Guided Mode wizard for walking the whole loop step by step
 - Guided completion meter and session save path
@@ -33,6 +33,7 @@ The v0.6 app includes:
 - Repair Builder for turning drift into a concrete repair path
 - Reversibility Helper with score and guidance before action settles
 - Public Practice Pack with worksheet, workshop flow, and decision-card deck
+- Practice Evidence Pack with worked examples, fixtures, example receipts, and accessibility checklist
 - Local-only Receipt Builder with JSON and Markdown export
 - Local saved scenario and receipt libraries using browser storage
 - Import / replay for receipts and full library bundles
@@ -59,6 +60,18 @@ Included documents:
 - [`docs/practice-pack/worksheet.md`](./docs/practice-pack/worksheet.md)
 - [`docs/practice-pack/workshop-guide.md`](./docs/practice-pack/workshop-guide.md)
 - [`docs/practice-pack/decision-cards.md`](./docs/practice-pack/decision-cards.md)
+
+## Practice Evidence Pack
+
+The evidence pack gives users worked examples and fixtures so they can learn by replaying public-safe scenarios.
+
+Included documents:
+
+- [`docs/evidence-pack.md`](./docs/evidence-pack.md)
+- [`docs/worked-examples.md`](./docs/worked-examples.md)
+- [`docs/accessibility-checklist.md`](./docs/accessibility-checklist.md)
+- [`fixtures/evidence-pack.fixtures.json`](./fixtures/evidence-pack.fixtures.json)
+- [`examples/community-governance-receipt.json`](./examples/community-governance-receipt.json)
 
 ## Local development
 
