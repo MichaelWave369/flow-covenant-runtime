@@ -6,6 +6,12 @@ Flow Covenant Runtime (FCR) is a public-safe, local-first React app that turns t
 
 > Force creates compliance. Flow creates participation.
 
+Live app:
+
+```text
+https://michaelwave369.github.io/flow-covenant-runtime/
+```
+
 ## Claim-safe boundary
 
 This is a philosophy and systems-design model, not a claim that physical laws literally want, think, or feel.
@@ -14,13 +20,16 @@ FCR does not reject boundaries, evidence, law, or accountability. It reframes th
 
 ## Interactive app
 
-The v0.1 app includes:
+The v0.2 app includes:
 
-- Runtime Loop Explorer: Signal → Invitation → Consent → Alignment → Flow → Receipt → Renewal
+- About / Manifesto section
+- Visual Runtime Loop Explorer: Signal → Invitation → Consent → Alignment → Flow → Receipt → Renewal
 - Law vs Flow Simulator for scenario comparison
+- Shareable scenario URLs
 - Governance Gates checklist: Consent, Harm, Claim, Evidence, Reversibility, Repair
-- Local-only Receipt Builder with JSON export and Markdown copy
-- Public-safe docs, schema seed, example receipt, and GitHub Pages workflow
+- Gate summary counts: pass / watch / block
+- Local-only Receipt Builder with JSON and Markdown export
+- Public-safe docs, schema seed, example receipts, and GitHub Pages workflow
 
 ## Local development
 
@@ -35,14 +44,10 @@ Build:
 npm run build
 ```
 
-## GitHub Pages
+Preview:
 
-This repo includes `.github/workflows/pages.yml`.
-
-Expected live URL after Pages is enabled:
-
-```text
-https://michaelwave369.github.io/flow-covenant-runtime/
+```bash
+npm run preview
 ```
 
 ## Core loop
@@ -50,6 +55,10 @@ https://michaelwave369.github.io/flow-covenant-runtime/
 ```text
 Signal -> Invitation -> Consent -> Alignment -> Flow -> Receipt -> Renewal
 ```
+
+## Roadmap
+
+See [`ROADMAP.md`](./ROADMAP.md).
 
 ## License
 
