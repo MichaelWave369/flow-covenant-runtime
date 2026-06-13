@@ -76,10 +76,19 @@
 - Local-first guard notes
 - v1.0 pre-release checklist
 
-## v1.0 — Public Stable Candidate
+## v1.0.0 — Public Stable
 
-- Run and verify v0.9 hardening checks in Actions
-- Bump app runtime constant to 1.0.0 after the live checklist passes
-- Create release notes and public stable tag
-- Review live app for keyboard flow, empty states, import feedback, and print behavior
-- Confirm claim boundary and local-first guarantees one final time
+- Promoted from v1.0.0-rc.1 after GitHub Pages checks passed green
+- Stable release notes published
+- README release status updated from candidate to stable
+- App runtime version synced from `package.json` during check/build
+- Claim-safe boundary and local-first guarantees preserved
+- Public stable surface includes guided mode, facilitator mode, practice pack, evidence pack, repair builder, receipt builder, and local library
+
+## v1.1 — Next Candidate Direction
+
+- Import validation previews before replay
+- Optional printable facilitator packet view
+- More example receipts and domain templates
+- Accessibility audit pass with documented keyboard walkthrough
+- Optional public demo script for maintainers and facilitators
