@@ -16,22 +16,23 @@ https://michaelwave369.github.io/flow-covenant-runtime/
 
 This is a philosophy and systems-design model, not a claim that physical laws literally want, think, or feel.
 
-FCR does not reject boundaries, evidence, law, or accountability. It reframes them as instruments that shape coherent play instead of cages that demand blind compliance.
+FCR keeps boundaries, evidence, law, accountability, consent, and repair visible.
 
 ## Interactive app
 
-The v0.3 app includes:
+The v0.4 app includes:
 
 - About / Manifesto section
-- Visual Runtime Loop Explorer: Signal → Invitation → Consent → Alignment → Flow → Receipt → Renewal
-- Law vs Flow Simulator for scenario comparison
+- Visual Runtime Loop Explorer
+- Law vs Flow Simulator
 - Shareable scenario URLs
-- Governance Gates checklist: Consent, Harm, Claim, Evidence, Reversibility, Repair
-- Gate summary counts: pass / watch / block
+- Governance Gates checklist
+- Gate summary counts
+- Repair Builder for turning drift into a concrete repair path
+- Reversibility Helper with score and guidance before action settles
 - Local-only Receipt Builder with JSON and Markdown export
-- **Local saved scenario library** using browser storage
-- **Local saved receipt library** using browser storage
-- **Import / replay** for receipts and full library bundles
+- Local saved scenario and receipt libraries using browser storage
+- Import / replay for receipts and full library bundles
 - Public-safe docs, schema seed, example receipts, and GitHub Pages workflow
 
 ## Local development
