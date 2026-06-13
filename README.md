@@ -20,7 +20,7 @@ FCR keeps boundaries, evidence, law, accountability, consent, and repair visible
 
 ## Interactive app
 
-The v0.8 app includes:
+The v0.9 app includes:
 
 - Facilitator Mode with session timer, room prompts, decision summary, closeout checks, and facilitator packet export
 - Guided Mode wizard for walking the whole loop step by step
@@ -38,7 +38,20 @@ The v0.8 app includes:
 - Local-only Receipt Builder with JSON and Markdown export
 - Local saved scenario and receipt libraries using browser storage
 - Import / replay for receipts and full library bundles
+- v0.9 hardening notes, smoke fixtures, local-first guard, and v1.0 release checklist
 - Public-safe docs, schemas, example receipts, and GitHub Pages workflow
+
+## v0.9 Testing and Hardening
+
+v0.9 adds trust rails before the v1.0 candidate:
+
+- [`docs/testing-hardening.md`](./docs/testing-hardening.md)
+- [`docs/v1-release-checklist.md`](./docs/v1-release-checklist.md)
+- [`fixtures/hardening-smoke.fixtures.json`](./fixtures/hardening-smoke.fixtures.json)
+- [`scripts/smoke-check.mjs`](./scripts/smoke-check.mjs)
+- [`scripts/local-first-guard.mjs`](./scripts/local-first-guard.mjs)
+
+GitHub Pages now runs the smoke check and local-first guard before build.
 
 ## Facilitator Mode
 
@@ -102,6 +115,13 @@ Build:
 npm run build
 ```
 
+Hardening checks:
+
+```bash
+node scripts/smoke-check.mjs
+node scripts/local-first-guard.mjs
+```
+
 Preview:
 
 ```bash
@@ -117,7 +137,3 @@ Signal -> Invitation -> Consent -> Alignment -> Flow -> Receipt -> Renewal
 ## Roadmap
 
 See [`ROADMAP.md`](./ROADMAP.md).
-
-## License
-
-MIT License.
