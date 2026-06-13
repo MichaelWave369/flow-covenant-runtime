@@ -53,9 +53,18 @@
 
 ## v0.7 — Practice Evidence Pack
 
-- More worked examples
-- Example receipts by domain
-- Lightweight test fixtures
+- Worked examples by domain
+- Domain example receipts
+- Lightweight fixtures for future tests and import flows
 - Accessibility review checklist
-- Better validation feedback
-- Session timer and facilitator mode
+- README evidence-pack index
+- Public-safe evidence boundary language
+
+## v0.8 — Facilitator Mode
+
+- Session timer
+- Room-mode facilitation prompts
+- Decision summary panel
+- Exportable facilitator packet
+- Stronger validation feedback
+- More accessibility and print checks
