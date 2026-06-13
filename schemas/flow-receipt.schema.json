@@ -22,6 +22,16 @@
     "evidence": { "type": "string" },
     "assumptions": { "type": "string" },
     "unknowns": { "type": "string" },
+    "repairPlan": { "$ref": "./repair-plan.schema.json" },
+    "reversibilityAssessment": {
+      "type": "object",
+      "required": ["score", "label", "guidance"],
+      "properties": {
+        "score": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "label": { "enum": ["reversible", "guarded", "hard-stop"] },
+        "guidance": { "type": "array", "items": { "type": "string" } }
+      }
+    },
     "gateSummary": { "type": "array", "items": { "type": "object", "required": ["gateId", "status", "note"], "properties": { "gateId": { "type": "string" }, "status": { "enum": ["pass", "watch", "block"] }, "note": { "type": "string" } } } },
     "gateCounts": { "type": "object", "required": ["pass", "watch", "block", "total"], "properties": { "pass": { "type": "integer" }, "watch": { "type": "integer" }, "block": { "type": "integer" }, "total": { "type": "integer" } } },
     "shareUrl": { "type": "string" },
