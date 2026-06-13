@@ -12,6 +12,14 @@ Live app:
 https://michaelwave369.github.io/flow-covenant-runtime/
 ```
 
+## Release status
+
+Current candidate: **v1.0.0-rc.1**
+
+This is the first public stable candidate. It remains a candidate until the GitHub Pages deployment is green and the live app is manually smoke-tested after deploy.
+
+Release notes: [`docs/release-notes-v1.0.0-rc.1.md`](./docs/release-notes-v1.0.0-rc.1.md)
+
 ## Claim-safe boundary
 
 This is a philosophy and systems-design model, not a claim that physical laws literally want, think, or feel.
@@ -20,87 +28,37 @@ FCR keeps boundaries, evidence, law, accountability, consent, and repair visible
 
 ## Interactive app
 
-The v0.9 app includes:
+The v1.0.0-rc.1 app includes:
 
 - Facilitator Mode with session timer, room prompts, decision summary, closeout checks, and facilitator packet export
 - Guided Mode wizard for walking the whole loop step by step
-- Guided completion meter and session save path
 - About / Manifesto section
 - Visual Runtime Loop Explorer
 - Law vs Flow Simulator
 - Shareable scenario URLs
 - Governance Gates checklist
-- Gate summary counts
-- Repair Builder for turning drift into a concrete repair path
-- Reversibility Helper with score and guidance before action settles
-- Public Practice Pack with worksheet, workshop flow, and decision-card deck
-- Practice Evidence Pack with worked examples, fixtures, example receipts, and accessibility checklist
+- Repair Builder and Reversibility Helper
+- Public Practice Pack and Practice Evidence Pack
 - Local-only Receipt Builder with JSON and Markdown export
 - Local saved scenario and receipt libraries using browser storage
 - Import / replay for receipts and full library bundles
-- v0.9 hardening notes, smoke fixtures, local-first guard, and v1.0 release checklist
-- Public-safe docs, schemas, example receipts, and GitHub Pages workflow
+- v1 candidate hardening checks and GitHub Pages workflow
 
-## v0.9 Testing and Hardening
+## v1 candidate checks
 
-v0.9 adds trust rails before the v1.0 candidate:
+The repository includes trust rails that run before GitHub Pages deploys:
 
-- [`docs/testing-hardening.md`](./docs/testing-hardening.md)
-- [`docs/v1-release-checklist.md`](./docs/v1-release-checklist.md)
-- [`fixtures/hardening-smoke.fixtures.json`](./fixtures/hardening-smoke.fixtures.json)
+- [`scripts/sync-version.mjs`](./scripts/sync-version.mjs)
 - [`scripts/smoke-check.mjs`](./scripts/smoke-check.mjs)
 - [`scripts/local-first-guard.mjs`](./scripts/local-first-guard.mjs)
+- [`docs/testing-hardening.md`](./docs/testing-hardening.md)
+- [`docs/v1-release-checklist.md`](./docs/v1-release-checklist.md)
 
-GitHub Pages now runs the smoke check and local-first guard before build.
+Run all local checks:
 
-## Facilitator Mode
-
-Facilitator Mode is for people running a live room, team review, release check, community session, or reflection process.
-
-It adds:
-
-- Session presets
-- Timer controls
-- Room-mode prompts
-- Decision summary
-- Closeout validation checks
-- Exportable facilitator packets in Markdown and JSON
-
-See [`docs/facilitator-mode.md`](./docs/facilitator-mode.md).
-
-## Guided Mode
-
-Guided Mode is for first-time users, facilitators, and teams who want the full FCR process without needing to understand the whole model up front.
-
-It walks through:
-
-```text
-Context -> Signal -> Invitation -> Affected Parties -> Consent -> Gates -> Alignment -> Repair -> Flow -> Receipt -> Renewal -> Evidence -> Finish
+```bash
+npm run check
 ```
-
-See [`docs/guided-mode.md`](./docs/guided-mode.md).
-
-## Public Practice Pack
-
-The practice pack is designed for meetings, workshops, team reviews, community sessions, and personal reflection.
-
-Included documents:
-
-- [`docs/practice-pack/worksheet.md`](./docs/practice-pack/worksheet.md)
-- [`docs/practice-pack/workshop-guide.md`](./docs/practice-pack/workshop-guide.md)
-- [`docs/practice-pack/decision-cards.md`](./docs/practice-pack/decision-cards.md)
-
-## Practice Evidence Pack
-
-The evidence pack gives users worked examples and fixtures so they can learn by replaying public-safe scenarios.
-
-Included documents:
-
-- [`docs/evidence-pack.md`](./docs/evidence-pack.md)
-- [`docs/worked-examples.md`](./docs/worked-examples.md)
-- [`docs/accessibility-checklist.md`](./docs/accessibility-checklist.md)
-- [`fixtures/evidence-pack.fixtures.json`](./fixtures/evidence-pack.fixtures.json)
-- [`examples/community-governance-receipt.json`](./examples/community-governance-receipt.json)
 
 ## Local development
 
@@ -115,13 +73,6 @@ Build:
 npm run build
 ```
 
-Hardening checks:
-
-```bash
-node scripts/smoke-check.mjs
-node scripts/local-first-guard.mjs
-```
-
 Preview:
 
 ```bash
@@ -133,6 +84,15 @@ npm run preview
 ```text
 Signal -> Invitation -> Consent -> Alignment -> Flow -> Receipt -> Renewal
 ```
+
+## Docs
+
+- [`docs/facilitator-mode.md`](./docs/facilitator-mode.md)
+- [`docs/guided-mode.md`](./docs/guided-mode.md)
+- [`docs/evidence-pack.md`](./docs/evidence-pack.md)
+- [`docs/practice-pack/worksheet.md`](./docs/practice-pack/worksheet.md)
+- [`docs/practice-pack/workshop-guide.md`](./docs/practice-pack/workshop-guide.md)
+- [`docs/practice-pack/decision-cards.md`](./docs/practice-pack/decision-cards.md)
 
 ## Roadmap
 
