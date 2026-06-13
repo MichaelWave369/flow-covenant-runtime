@@ -20,7 +20,7 @@ FCR keeps boundaries, evidence, law, accountability, consent, and repair visible
 
 ## Interactive app
 
-The v0.4 app includes:
+The v0.5 app includes:
 
 - About / Manifesto section
 - Visual Runtime Loop Explorer
@@ -30,10 +30,21 @@ The v0.4 app includes:
 - Gate summary counts
 - Repair Builder for turning drift into a concrete repair path
 - Reversibility Helper with score and guidance before action settles
+- Public Practice Pack with worksheet, workshop flow, and decision-card deck
 - Local-only Receipt Builder with JSON and Markdown export
 - Local saved scenario and receipt libraries using browser storage
 - Import / replay for receipts and full library bundles
-- Public-safe docs, schema seed, example receipts, and GitHub Pages workflow
+- Public-safe docs, schemas, example receipts, and GitHub Pages workflow
+
+## Public Practice Pack
+
+The practice pack is designed for meetings, workshops, team reviews, community sessions, and personal reflection.
+
+Included documents:
+
+- [`docs/practice-pack/worksheet.md`](./docs/practice-pack/worksheet.md)
+- [`docs/practice-pack/workshop-guide.md`](./docs/practice-pack/workshop-guide.md)
+- [`docs/practice-pack/decision-cards.md`](./docs/practice-pack/decision-cards.md)
 
 ## Local development
 
