@@ -1,0 +1,20 @@
+{
+  "id": "fcr-example-community-governance-v0-7",
+  "model": "Flow Covenant Runtime",
+  "version": "0.7.0",
+  "scenarioType": "Community governance",
+  "scenario": "A community hears public infrastructure promises, but residents want visible records, affected-party clarity, and review paths before settlement.",
+  "signal": "Trust depends on separating measured facts, promises, claims, unknowns, and disputed items.",
+  "invitation": "Create a public receipt packet and invite affected parties to review the evidence boundary.",
+  "affectedParties": "Residents, workers, landholders, local institutions, officials, future users, and future generations.",
+  "consent": "No final settlement should be framed as consent until affected parties can see records and question paths.",
+  "alignment": "The coherent move is transparency first, decision second, and repair paths visible throughout.",
+  "action": "Publish questions, evidence classes, promised outcomes, known records, unknowns, and review dates.",
+  "outcome": "The decision field becomes easier to inspect without forcing agreement or denial.",
+  "renewal": "Schedule a review and update the receipt when measured evidence changes.",
+  "evidence": "Public records, meeting notes, written promises, measured outcomes, and signed receipts where available.",
+  "assumptions": "The community can participate more cleanly when evidence classes are visible.",
+  "unknowns": "Which promises are contractual, which are estimates, and which are still aspirational.",
+  "gateCounts": { "pass": 1, "watch": 4, "block": 1, "total": 6 },
+  "claimBoundary": "This is a philosophy and systems-design model, not a claim that physical laws literally want, think, or feel."
+}
