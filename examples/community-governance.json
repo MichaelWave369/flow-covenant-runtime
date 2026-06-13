@@ -1,15 +1,15 @@
 {
   "scenarioType": "Community governance",
-  "scenario": "A community has heard job and infrastructure promises, but residents want receipts, repair paths, and transparent decision records.",
-  "signal": "A public promise exists and the affected community wants clarity.",
-  "invitation": "Invite stakeholders to convert claims into measurable, dated, public receipts.",
-  "affectedParties": "Residents, workers, public officials, facility operators, landowners, downstream communities, and future decision makers.",
-  "consent": "Community participation should be informed, non-coerced, documented, and open to refusal or dissent.",
-  "alignment": "Separate measured facts, promises, assumptions, unknowns, risks, and repair obligations.",
-  "action": "Create a public receipt table and ask direct, non-shaming questions before approval or escalation.",
-  "outcome": "The conversation shifts from belief and pressure to transparent evidence and accountable follow-through.",
-  "renewal": "Schedule review points, publish updates, and define repair paths for broken promises or unexpected harms.",
-  "evidence": "Meeting notes, public filings, contracts, fiscal audits, environmental records, utility records, and dated stakeholder statements.",
-  "assumptions": "Transparent receipts will reduce confusion and build trust faster than force-first debate.",
-  "unknowns": "Whether stakeholders will provide timely evidence and accept repair obligations."
+  "scenario": "A public infrastructure promise needs community trust, transparent evidence, repair paths, and a record of what was actually promised versus assumed.",
+  "signal": "A community-impact promise has entered the field.",
+  "invitation": "Invite stakeholders to separate facts, promises, assumptions, and open questions.",
+  "affectedParties": "Residents, local officials, developers, workers, nearby landowners, and future generations.",
+  "consent": "Participation requires clear public notice, understandable records, and refusal or objection paths.",
+  "alignment": "The process must preserve truth, dignity, accountability, and future repair.",
+  "action": "Create a public receipt table and request source documents before treating claims as settled.",
+  "outcome": "Trust improves only when claims become traceable receipts.",
+  "renewal": "Update receipts after each meeting and mark unresolved claims as unknown or disputed.",
+  "evidence": "Meeting notes, official filings, contracts, audit records, and public statements.",
+  "assumptions": "Some promises may have been repeated without direct source evidence.",
+  "unknowns": "Which claims have binding documents and which are aspirational only."
 }

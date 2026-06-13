@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://michaelwave369.github.io/flow-covenant-runtime/schemas/library-bundle.schema.json",
+  "title": "Flow Covenant Runtime Local Library Bundle",
+  "type": "object",
+  "required": ["model", "version", "exportedAt", "savedScenarios", "savedReceipts", "claimBoundary"],
+  "properties": {
+    "model": { "const": "Flow Covenant Runtime Library Bundle" },
+    "version": { "type": "string" },
+    "exportedAt": { "type": "string", "format": "date-time" },
+    "savedScenarios": { "type": "array" },
+    "savedReceipts": { "type": "array" },
+    "claimBoundary": { "type": "string", "pattern": "physical laws" }
+  },
+  "additionalProperties": true
+}

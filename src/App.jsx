@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
-const appVersion = '0.2.0';
+const appVersion = '0.3.0';
 const claimBoundary = 'This is a philosophy and systems-design model, not a claim that physical laws literally want, think, or feel.';
 
 const steps = [
@@ -20,6 +20,15 @@ const gates = [
   ['evidence', 'Evidence Gate', 'What signals, data, or receipts support this?'],
   ['reversibility', 'Reversibility Gate', 'Can this be undone or adjusted if needed?'],
   ['repair', 'Repair Gate', 'If disruption occurs, how will we repair?'],
+];
+
+const scenarioTypes = ['AI collaboration', 'Software workflow', 'Community governance', 'Personal reflection', 'Product decision', 'Other'];
+
+const manifestoCards = [
+  ['Life is play, not force.', 'The model begins from a softer center: order can arise through invitation, relation, rhythm, and repair.'],
+  ['Boundaries are instruments, not cages.', 'A good boundary gives life shape without pretending compliance is the whole story.'],
+  ['Correction is return, not shame.', 'When a system drifts, the first question is what needs repair so future play can continue.'],
+  ['Receipts replace authority theater.', 'Trust grows when actions can be explained, reviewed, reversed, or renewed.'],
 ];
 
 const samples = [
@@ -45,15 +54,6 @@ const samples = [
   },
 ];
 
-const scenarioTypes = ['AI collaboration', 'Software workflow', 'Community governance', 'Personal reflection', 'Product decision', 'Other'];
-
-const manifestoCards = [
-  ['Life is play, not force.', 'The model begins from a softer center: order can arise through invitation, relation, rhythm, and repair.'],
-  ['Boundaries are instruments, not cages.', 'A good boundary gives life shape without pretending compliance is the whole story.'],
-  ['Correction is return, not shame.', 'When a system drifts, the first question is what needs repair so future play can continue.'],
-  ['Receipts replace authority theater.', 'Trust grows when actions can be explained, reviewed, reversed, or renewed.'],
-];
-
 const starterReceipt = {
   signal: 'A request, drift, opportunity, or tension has appeared.',
   invitation: 'Translate the command into a clear offer with a refusal path.',
@@ -75,6 +75,29 @@ function hash(input) {
     h = Math.imul(h, 16777619);
   }
   return (h >>> 0).toString(16).padStart(8, '0');
+}
+
+function useLocalState(key, fallback) {
+  const [value, setValue] = useState(() => {
+    try {
+      const stored = window.localStorage.getItem(key);
+      return stored ? JSON.parse(stored) : fallback;
+    } catch {
+      return fallback;
+    }
+  });
+  const setStoredValue = (next) => {
+    setValue((current) => {
+      const resolved = typeof next === 'function' ? next(current) : next;
+      try {
+        window.localStorage.setItem(key, JSON.stringify(resolved));
+      } catch {
+        // Local storage may be unavailable in some private browsing contexts.
+      }
+      return resolved;
+    });
+  };
+  return [value, setStoredValue];
 }
 
 function getSearchParam(name, fallback) {
@@ -148,26 +171,33 @@ async function copyText(text) {
   window.prompt('Copy this text:', text);
 }
 
+function downloadText(filename, text, type) {
+  const blob = new Blob([text], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function dedupeById(records) {
+  const map = new Map();
+  records.forEach((record) => map.set(record.id, record));
+  return Array.from(map.values()).sort((a, b) => String(b.updatedAt || b.createdAt).localeCompare(String(a.updatedAt || a.createdAt)));
+}
+
 function LoopDiagram({ active, onSelect }) {
   return (
     <div className="loopDiagram" aria-label="Flow Covenant Runtime loop diagram">
       <div className="loopRing" />
-      <div className="loopCenter">
-        <b>Playfield Governance</b>
-        <span>boundaries · receipts · repair</span>
-      </div>
+      <div className="loopCenter"><b>Playfield Governance</b><span>boundaries · receipts · repair</span></div>
       {steps.map((step, index) => {
         const angle = (index / steps.length) * 360 - 90;
         const transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-192px) rotate(${-angle}deg)`;
         return (
-          <button
-            key={step.id}
-            className={`loopNode ${active === step.id ? 'active' : ''}`}
-            style={{ transform }}
-            onClick={() => onSelect(step.id)}
-          >
-            <span>{step.number}</span>
-            <b>{step.title}</b>
+          <button key={step.id} className={`loopNode ${active === step.id ? 'active' : ''}`} style={{ transform }} onClick={() => onSelect(step.id)}>
+            <span>{step.number}</span><b>{step.title}</b>
           </button>
         );
       })}
@@ -182,46 +212,91 @@ export default function App() {
   const [receiptFields, setReceiptFields] = useState(starterReceipt);
   const [gateStates, setGateStates] = useState(gates.map(([id]) => ({ gateId: id, status: 'watch', note: '' })));
   const [notice, setNotice] = useState('');
+  const [savedScenarios, setSavedScenarios] = useLocalState('fcr.savedScenarios.v1', []);
+  const [savedReceipts, setSavedReceipts] = useLocalState('fcr.savedReceipts.v1', []);
+  const importRef = useRef(null);
 
   const currentStep = steps.find((step) => step.id === active) ?? steps[0];
   const evaluation = useMemo(() => evaluate(scenario), [scenario]);
   const shareUrl = useMemo(() => makeShareUrl(scenario, scenarioType, active), [scenario, scenarioType, active]);
   const receipt = useMemo(() => makeReceipt(scenario, scenarioType, receiptFields, gateStates, shareUrl), [scenario, scenarioType, receiptFields, gateStates, shareUrl]);
   const markdownReceipt = useMemo(() => receiptToMarkdown(receipt), [receipt]);
+  const gateCounts = receipt.gateCounts;
 
+  const flash = (message) => { setNotice(message); setTimeout(() => setNotice(''), 1800); };
   const setField = (key, value) => setReceiptFields((current) => ({ ...current, [key]: value }));
   const setGate = (gateId, patch) => setGateStates((current) => current.map((gate) => (gate.gateId === gateId ? { ...gate, ...patch } : gate)));
+  const applySample = (sample) => { setScenario(sample.text); setScenarioType(sample.domain); setActive('signal'); };
 
-  const flash = (message) => {
-    setNotice(message);
-    setTimeout(() => setNotice(''), 1800);
+  const scenarioSnapshot = () => ({
+    id: `scenario-${hash(JSON.stringify({ scenario, scenarioType, receiptFields, gateStates }))}`,
+    title: scenario.slice(0, 82) || 'Untitled scenario',
+    scenario,
+    scenarioType,
+    active,
+    receiptFields,
+    gateStates,
+    updatedAt: new Date().toISOString(),
+  });
+
+  const saveScenario = () => {
+    const record = scenarioSnapshot();
+    setSavedScenarios((current) => dedupeById([record, ...current]));
+    flash('Scenario saved locally');
   };
 
-  const applySample = (sample) => {
-    setScenario(sample.text);
-    setScenarioType(sample.domain);
-    setActive('signal');
+  const loadScenario = (record) => {
+    setScenario(record.scenario || '');
+    setScenarioType(record.scenarioType || 'Other');
+    setActive(record.active || 'signal');
+    setReceiptFields(record.receiptFields || starterReceipt);
+    setGateStates(record.gateStates || gates.map(([id]) => ({ gateId: id, status: 'watch', note: '' })));
+    flash('Scenario loaded');
   };
 
-  const copyShareLink = async () => {
-    await copyText(shareUrl);
-    flash('Share link copied');
+  const saveReceipt = () => {
+    const record = { ...receipt, savedAt: new Date().toISOString() };
+    setSavedReceipts((current) => dedupeById([record, ...current]));
+    flash('Receipt saved locally');
   };
 
-  const copyReceipt = async () => {
-    await copyText(markdownReceipt);
-    flash('Receipt copied as Markdown');
+  const loadReceipt = (record) => {
+    setScenario(record.scenario || '');
+    setScenarioType(record.scenarioType || 'Other');
+    setReceiptFields({
+      signal: record.signal || '', invitation: record.invitation || '', affectedParties: record.affectedParties || '', consent: record.consent || '', alignment: record.alignment || '', action: record.action || '', outcome: record.outcome || '', renewal: record.renewal || '', evidence: record.evidence || '', assumptions: record.assumptions || '', unknowns: record.unknowns || '',
+    });
+    setGateStates(record.gateSummary || gateStates);
+    setActive('receipt');
+    flash('Receipt replayed into builder');
   };
 
-  const downloadReceipt = (format) => {
-    const isMarkdown = format === 'md';
-    const blob = new Blob([isMarkdown ? markdownReceipt : JSON.stringify(receipt, null, 2)], { type: isMarkdown ? 'text/markdown' : 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${receipt.id}.${isMarkdown ? 'md' : 'json'}`;
-    a.click();
-    URL.revokeObjectURL(url);
+  const exportLibrary = () => {
+    const bundle = { model: 'Flow Covenant Runtime Library Bundle', version: appVersion, exportedAt: new Date().toISOString(), savedScenarios, savedReceipts, claimBoundary };
+    downloadText(`fcr-library-${hash(JSON.stringify(bundle))}.json`, JSON.stringify(bundle, null, 2), 'application/json');
+  };
+
+  const importJson = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    try {
+      const parsed = JSON.parse(await file.text());
+      if (Array.isArray(parsed.savedScenarios) || Array.isArray(parsed.savedReceipts)) {
+        setSavedScenarios((current) => dedupeById([...(parsed.savedScenarios || []), ...current]));
+        setSavedReceipts((current) => dedupeById([...(parsed.savedReceipts || []), ...current]));
+        flash('Library bundle imported');
+      } else if (parsed.model === 'Flow Covenant Runtime' || parsed.id?.startsWith?.('fcr-')) {
+        setSavedReceipts((current) => dedupeById([parsed, ...current]));
+        loadReceipt(parsed);
+        flash('Receipt imported and replayed');
+      } else {
+        flash('Import file was not recognized');
+      }
+    } catch {
+      flash('Import failed: invalid JSON');
+    } finally {
+      event.target.value = '';
+    }
   };
 
   return (
@@ -235,10 +310,7 @@ export default function App() {
           <p className="lead">Move from force-first law thinking into participation-first flow thinking.</p>
           <div className="formula">Force creates compliance. Flow creates participation.</div>
           <nav className="actions" aria-label="Page sections">
-            <a href="#about">About</a>
-            <a href="#loop">Explore loop</a>
-            <a href="#simulator">Simulator</a>
-            <a href="#receipt">Build receipt</a>
+            <a href="#about">About</a><a href="#loop">Explore loop</a><a href="#simulator">Simulator</a><a href="#receipt">Build receipt</a><a href="#library">Library</a>
           </nav>
         </div>
         <aside className="boundary"><b>Claim-safe boundary</b><p>{claimBoundary}</p></aside>
@@ -248,9 +320,7 @@ export default function App() {
         <p className="eyebrow">About / Manifesto</p>
         <h2>Life is play, not force.</h2>
         <p className="sectionLead">FCR keeps accountability, evidence, boundaries, and repair — but changes the emotional and architectural center of gravity from domination to coherent participation.</p>
-        <div className="manifestoGrid">
-          {manifestoCards.map(([title, body]) => <article key={title}><h3>{title}</h3><p>{body}</p></article>)}
-        </div>
+        <div className="manifestoGrid">{manifestoCards.map(([title, body]) => <article key={title}><h3>{title}</h3><p>{body}</p></article>)}</div>
       </section>
 
       <section className="panel shift">
@@ -263,49 +333,39 @@ export default function App() {
       <section className="panel" id="loop">
         <p className="eyebrow">Runtime loop explorer</p>
         <h2>Signal → Invitation → Consent → Alignment → Flow → Receipt → Renewal</h2>
-        <div className="loopGrid">
-          <LoopDiagram active={active} onSelect={setActive} />
-          <article className="stepCard"><span>{currentStep.number}</span><h3>{currentStep.title}</h3><h4>{currentStep.prompt}</h4><p>{currentStep.detail}</p><blockquote>Boundaries shape play. Receipts keep trust. Repair keeps flow alive.</blockquote></article>
-        </div>
-        <div className="loopButtons compact">
-          {steps.map((step) => <button key={step.id} className={active === step.id ? 'active' : ''} onClick={() => setActive(step.id)}><span>{step.number}</span>{step.title}</button>)}
-        </div>
+        <div className="loopGrid"><LoopDiagram active={active} onSelect={setActive} /><article className="stepCard"><span>{currentStep.number}</span><h3>{currentStep.title}</h3><h4>{currentStep.prompt}</h4><p>{currentStep.detail}</p><blockquote>Boundaries shape play. Receipts keep trust. Repair keeps flow alive.</blockquote></article></div>
+        <div className="loopButtons compact">{steps.map((step) => <button key={step.id} className={active === step.id ? 'active' : ''} onClick={() => setActive(step.id)}><span>{step.number}</span>{step.title}</button>)}</div>
       </section>
 
       <section className="panel" id="simulator">
         <p className="eyebrow">Law vs flow simulator</p>
         <h2>Turn a scenario into two decision paths</h2>
         <div className="samples">{samples.map((sample) => <button key={sample.title} onClick={() => applySample(sample)}><b>{sample.title}</b><span>{sample.domain}</span></button>)}</div>
-        <label className="typePicker">Scenario type<select value={scenarioType} onChange={(event) => setScenarioType(event.target.value)}>{scenarioTypes.map((type) => <option key={type} value={type}>{type}</option>)}</select></label>
-        <textarea value={scenario} onChange={(event) => setScenario(event.target.value)} />
-        <div className="shareBox"><input readOnly value={shareUrl} aria-label="Shareable scenario URL" /><button onClick={copyShareLink}>Copy share link</button></div>
-        <div className="paths">
-          <article><h3>Law-thinking path</h3><ol>{evaluation.lawPath.map((item) => <li key={item}>{item}</li>)}</ol></article>
-          <article className="flow"><h3>Flow-thinking path</h3><ol>{evaluation.flowPath.map((item) => <li key={item}>{item}</li>)}</ol></article>
-        </div>
+        <div className="scenarioEditor"><label>Scenario type<select value={scenarioType} onChange={(event) => setScenarioType(event.target.value)}>{scenarioTypes.map((type) => <option key={type} value={type}>{type}</option>)}</select></label><label>Scenario<textarea value={scenario} onChange={(event) => setScenario(event.target.value)} /></label></div>
+        <div className="shareBox"><b>Shareable scenario URL</b><input value={shareUrl} readOnly /><button onClick={() => copyText(shareUrl).then(() => flash('Share link copied'))}>Copy link</button><button className="secondary" onClick={saveScenario}>Save scenario</button></div>
+        <div className="paths"><article><h3>Law-thinking path</h3><ol>{evaluation.lawPath.map((item) => <li key={item}>{item}</li>)}</ol></article><article className="flow"><h3>Flow-thinking path</h3><ol>{evaluation.flowPath.map((item) => <li key={item}>{item}</li>)}</ol></article></div>
         <div className={`risk ${evaluation.risk}`}><b>Risk level: {evaluation.risk}</b>{evaluation.watchSignals.length ? <ul>{evaluation.watchSignals.map((item) => <li key={item}>{item}</li>)}</ul> : <p>No major watch signal detected. Still run the gates before settlement.</p>}</div>
       </section>
 
       <section className="panel" id="gates">
-        <p className="eyebrow">Governance gates</p>
-        <h2>Check the field before action settles</h2>
-        <div className="gateSummary"><b>{receipt.gateCounts.pass}</b> pass <b>{receipt.gateCounts.watch}</b> watch <b>{receipt.gateCounts.block}</b> block</div>
-        <div className="gates">{gates.map(([id, title, prompt]) => {
-          const gate = gateStates.find((item) => item.gateId === id);
-          return <article key={id} className={gate.status}><div><h3>{title}</h3><p>{prompt}</p></div><label>Status<select value={gate.status} onChange={(e) => setGate(id, { status: e.target.value })}><option value="pass">Pass</option><option value="watch">Watch</option><option value="block">Block</option></select></label><label>Note<input value={gate.note} onChange={(e) => setGate(id, { note: e.target.value })} /></label></article>;
-        })}</div>
+        <p className="eyebrow">Governance gates</p><h2>Check the field before action settles</h2>
+        <div className="gateSummary"><span><b>{gateCounts.pass}</b> pass</span><span><b>{gateCounts.watch}</b> watch</span><span><b>{gateCounts.block}</b> block</span></div>
+        <div className="gates">{gates.map(([id, title, prompt]) => { const gate = gateStates.find((item) => item.gateId === id) || { status: 'watch', note: '' }; return <article key={id} className={gate.status}><div><h3>{title}</h3><p>{prompt}</p></div><label>Status<select value={gate.status} onChange={(e) => setGate(id, { status: e.target.value })}><option value="pass">Pass</option><option value="watch">Watch</option><option value="block">Block</option></select></label><label>Note<input value={gate.note} onChange={(e) => setGate(id, { note: e.target.value })} /></label></article>; })}</div>
       </section>
 
       <section className="panel" id="receipt">
-        <p className="eyebrow">Receipt builder</p>
-        <h2>Create a local Flow Covenant receipt</h2>
-        <div className="receiptLayout">
-          <div className="fields">{Object.entries(receiptFields).map(([key, value]) => <label key={key}>{key}<textarea value={value} onChange={(e) => setField(key, e.target.value)} /></label>)}</div>
-          <aside className="receipt"><div><b>{receipt.id}</b><button onClick={copyReceipt}>Copy Markdown</button><button onClick={() => downloadReceipt('json')}>JSON</button><button onClick={() => downloadReceipt('md')}>MD</button></div><pre>{JSON.stringify(receipt, null, 2)}</pre></aside>
-        </div>
+        <p className="eyebrow">Receipt builder</p><h2>Create a local Flow Covenant receipt</h2>
+        <div className="receiptLayout"><div className="fields">{Object.entries(receiptFields).map(([key, value]) => <label key={key}>{key}<textarea value={value} onChange={(e) => setField(key, e.target.value)} /></label>)}</div><aside className="receipt"><div><b>{receipt.id}</b><button onClick={() => copyText(markdownReceipt).then(() => flash('Receipt copied as Markdown'))}>Copy Markdown</button><button onClick={() => downloadText(`${receipt.id}.json`, JSON.stringify(receipt, null, 2), 'application/json')}>JSON</button><button onClick={() => downloadText(`${receipt.id}.md`, markdownReceipt, 'text/markdown')}>Markdown</button><button onClick={saveReceipt}>Save</button></div><pre>{JSON.stringify(receipt, null, 2)}</pre></aside></div>
       </section>
 
-      <footer><b>Flow Covenant Runtime v{appVersion}</b><span>{claimBoundary}</span></footer>
+      <section className="panel" id="library">
+        <p className="eyebrow">Local library</p><h2>Save, import, replay, and export your work</h2>
+        <p className="sectionLead">Everything in this library stays in your browser storage unless you export it. No backend, no accounts, no hidden network calls.</p>
+        <div className="libraryActions"><button onClick={exportLibrary}>Export library bundle</button><button onClick={() => importRef.current?.click()}>Import JSON</button><button className="danger" onClick={() => { setSavedScenarios([]); setSavedReceipts([]); flash('Local library cleared'); }}>Clear library</button><input ref={importRef} type="file" accept="application/json,.json" onChange={importJson} hidden /></div>
+        <div className="libraryGrid"><article><h3>Saved scenarios ({savedScenarios.length})</h3>{savedScenarios.length === 0 ? <p className="empty">No saved scenarios yet.</p> : savedScenarios.map((record) => <div className="savedItem" key={record.id}><b>{record.title}</b><small>{record.scenarioType} · {record.updatedAt}</small><div><button onClick={() => loadScenario(record)}>Load</button><button className="secondary" onClick={() => setSavedScenarios((current) => current.filter((item) => item.id !== record.id))}>Delete</button></div></div>)}</article><article><h3>Saved receipts ({savedReceipts.length})</h3>{savedReceipts.length === 0 ? <p className="empty">No saved receipts yet.</p> : savedReceipts.map((record) => <div className="savedItem" key={record.id}><b>{record.id}</b><small>{record.scenarioType} · {record.savedAt || record.createdAt}</small><div><button onClick={() => loadReceipt(record)}>Replay</button><button className="secondary" onClick={() => downloadText(`${record.id}.json`, JSON.stringify(record, null, 2), 'application/json')}>Export</button><button className="secondary" onClick={() => setSavedReceipts((current) => current.filter((item) => item.id !== record.id))}>Delete</button></div></div>)}</article></div>
+      </section>
+
+      <footer><b>Flow Covenant Runtime</b><span>{claimBoundary}</span></footer>
     </main>
   );
 }

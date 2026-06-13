@@ -20,7 +20,7 @@ FCR does not reject boundaries, evidence, law, or accountability. It reframes th
 
 ## Interactive app
 
-The v0.2 app includes:
+The v0.3 app includes:
 
 - About / Manifesto section
 - Visual Runtime Loop Explorer: Signal → Invitation → Consent → Alignment → Flow → Receipt → Renewal
@@ -29,6 +29,9 @@ The v0.2 app includes:
 - Governance Gates checklist: Consent, Harm, Claim, Evidence, Reversibility, Repair
 - Gate summary counts: pass / watch / block
 - Local-only Receipt Builder with JSON and Markdown export
+- **Local saved scenario library** using browser storage
+- **Local saved receipt library** using browser storage
+- **Import / replay** for receipts and full library bundles
 - Public-safe docs, schema seed, example receipts, and GitHub Pages workflow
 
 ## Local development
