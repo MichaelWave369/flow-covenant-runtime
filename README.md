@@ -14,11 +14,11 @@ https://michaelwave369.github.io/flow-covenant-runtime/
 
 ## Release status
 
-Current candidate: **v1.0.0-rc.1**
+Current stable release: **v1.0.0**
 
-This is the first public stable candidate. It remains a candidate until the GitHub Pages deployment is green and the live app is manually smoke-tested after deploy.
+This is the first public stable release of Flow Covenant Runtime. It was promoted after the v1.0.0-rc.1 GitHub Pages deployment passed the hardening checks and the live app was manually verified.
 
-Release notes: [`docs/release-notes-v1.0.0-rc.1.md`](./docs/release-notes-v1.0.0-rc.1.md)
+Release notes: [`docs/release-notes-v1.0.0.md`](./docs/release-notes-v1.0.0.md)
 
 ## Claim-safe boundary
 
@@ -28,7 +28,7 @@ FCR keeps boundaries, evidence, law, accountability, consent, and repair visible
 
 ## Interactive app
 
-The v1.0.0-rc.1 app includes:
+The v1.0.0 app includes:
 
 - Facilitator Mode with session timer, room prompts, decision summary, closeout checks, and facilitator packet export
 - Guided Mode wizard for walking the whole loop step by step
@@ -42,9 +42,9 @@ The v1.0.0-rc.1 app includes:
 - Local-only Receipt Builder with JSON and Markdown export
 - Local saved scenario and receipt libraries using browser storage
 - Import / replay for receipts and full library bundles
-- v1 candidate hardening checks and GitHub Pages workflow
+- v1 stable hardening checks and GitHub Pages workflow
 
-## v1 candidate checks
+## Stable checks
 
 The repository includes trust rails that run before GitHub Pages deploys:
 
