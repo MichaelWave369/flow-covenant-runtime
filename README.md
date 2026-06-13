@@ -20,8 +20,10 @@ FCR keeps boundaries, evidence, law, accountability, consent, and repair visible
 
 ## Interactive app
 
-The v0.5 app includes:
+The v0.6 app includes:
 
+- Guided Mode wizard for walking the whole loop step by step
+- Guided completion meter and session save path
 - About / Manifesto section
 - Visual Runtime Loop Explorer
 - Law vs Flow Simulator
@@ -35,6 +37,18 @@ The v0.5 app includes:
 - Local saved scenario and receipt libraries using browser storage
 - Import / replay for receipts and full library bundles
 - Public-safe docs, schemas, example receipts, and GitHub Pages workflow
+
+## Guided Mode
+
+Guided Mode is for first-time users, facilitators, and teams who want the full FCR process without needing to understand the whole model up front.
+
+It walks through:
+
+```text
+Context -> Signal -> Invitation -> Affected Parties -> Consent -> Gates -> Alignment -> Repair -> Flow -> Receipt -> Renewal -> Evidence -> Finish
+```
+
+See [`docs/guided-mode.md`](./docs/guided-mode.md).
 
 ## Public Practice Pack
 
