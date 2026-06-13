@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 
-const appVersion = '0.3.0';
+const appVersion = '0.4.0';
 const claimBoundary = 'This is a philosophy and systems-design model, not a claim that physical laws literally want, think, or feel.';
 
 const steps = [
@@ -32,26 +32,10 @@ const manifestoCards = [
 ];
 
 const samples = [
-  {
-    title: 'AI collaborator receives an unclear request',
-    domain: 'AI collaboration',
-    text: 'A user asks an AI assistant to generate a strong public claim from a poetic idea, but the evidence is still early and mostly metaphorical.',
-  },
-  {
-    title: 'Team wants to rush a release',
-    domain: 'Software workflow',
-    text: 'A product team wants to ship a feature today even though consent language, rollback behavior, and audit receipts are incomplete.',
-  },
-  {
-    title: 'Community meeting around a public promise',
-    domain: 'Community governance',
-    text: 'A community has heard job and infrastructure promises, but residents want receipts, repair paths, and transparent decision records.',
-  },
-  {
-    title: 'Personal decision with emotional charge',
-    domain: 'Personal reflection',
-    text: 'A person feels pressure to make a fast decision while angry, but wants to preserve relationship, truth, and future repair.',
-  },
+  { title: 'AI collaborator receives an unclear request', domain: 'AI collaboration', text: 'A user asks an AI assistant to generate a strong public claim from a poetic idea, but the evidence is still early and mostly metaphorical.' },
+  { title: 'Team wants to rush a release', domain: 'Software workflow', text: 'A product team wants to ship a feature today even though consent language, rollback behavior, and audit receipts are incomplete.' },
+  { title: 'Community meeting around a public promise', domain: 'Community governance', text: 'A community has heard job and infrastructure promises, but residents want receipts, repair paths, and transparent decision records.' },
+  { title: 'Personal decision with emotional charge', domain: 'Personal reflection', text: 'A person feels pressure to make a fast decision while angry, but wants to preserve relationship, truth, and future repair.' },
 ];
 
 const starterReceipt = {
@@ -66,6 +50,65 @@ const starterReceipt = {
   evidence: 'List direct signals, data, tests, source material, or receipts.',
   assumptions: 'List what is believed but not proven.',
   unknowns: 'List what remains uncertain.',
+};
+
+const starterRepairPlan = {
+  drift: 'Name what drifted, broke trust, confused consent, or created risk.',
+  immediateStabilization: 'Pause escalation, name the uncertainty, protect affected parties, and keep the next move reversible.',
+  affectedRepair: 'Name who needs clarification, apology, rollback, support, or a new consent path.',
+  reversibleAction: 'Define what can be paused, undone, reduced, sandboxed, or tested before full settlement.',
+  repairAction: 'Choose the concrete repair move that restores coherence without hiding accountability.',
+  followUp: 'Define when the repair will be reviewed and what signal proves the field is healthier.',
+  renewalReceipt: 'Record the repair decision, evidence, assumptions, unknowns, and next check-in.',
+};
+
+const repairTemplates = {
+  'AI collaboration': {
+    drift: 'A request may blur metaphor, evidence, authority, or public claim boundaries.',
+    immediateStabilization: 'Pause strong claims and restate the claim-safe boundary before generating output.',
+    affectedRepair: 'Protect the user, audience, collaborators, and future readers from confusing metaphor with proof.',
+    reversibleAction: 'Produce a draft, not a final public claim; keep language editable and cite unknowns.',
+    repairAction: 'Rewrite the output as philosophy, design pattern, or hypothesis; remove overclaiming language.',
+    followUp: 'Review whether the final artifact clearly separates facts, assumptions, and poetic framing.',
+    renewalReceipt: 'Attach a receipt that names the boundary, changes made, and remaining unknowns.',
+  },
+  'Software workflow': {
+    drift: 'A release or workflow may be moving faster than consent, rollback, testing, or audit readiness.',
+    immediateStabilization: 'Freeze risky deployment paths and move the change behind a reversible flag or review gate.',
+    affectedRepair: 'Name users, maintainers, operators, support teams, and downstream systems affected by the change.',
+    reversibleAction: 'Prefer feature flags, staged rollout, sandbox testing, backups, and a documented rollback command.',
+    repairAction: 'Create a patch plan with owner, test, rollback, receipt, and post-release review.',
+    followUp: 'Run a release health check after deployment and record any drift signals.',
+    renewalReceipt: 'Save a release receipt with test result, rollback status, and repair decisions.',
+  },
+  'Community governance': {
+    drift: 'A promise, decision, or impact may be unclear, undocumented, disputed, or missing public repair paths.',
+    immediateStabilization: 'Slow the decision, publish the knowns/unknowns, and invite affected voices before settlement.',
+    affectedRepair: 'Name residents, workers, officials, landholders, future generations, and institutions affected.',
+    reversibleAction: 'Use public questions, staged commitments, written receipts, and review windows before irreversible action.',
+    repairAction: 'Create a public repair packet: what happened, what was promised, what is disputed, and what will be checked.',
+    followUp: 'Schedule a review date and define the receipts required to close the issue.',
+    renewalReceipt: 'Publish a plain-language receipt that separates measured, promised, claimed, unknown, and disputed items.',
+  },
+  'Personal reflection': {
+    drift: 'Emotion, pressure, fear, shame, or urgency may be narrowing choice and reducing future repair.',
+    immediateStabilization: 'Pause, breathe, lower the intensity, and choose the smallest non-harming next move.',
+    affectedRepair: 'Name self, relationships, responsibilities, and any person who needs respect or clarity.',
+    reversibleAction: 'Delay irreversible words or actions; choose a temporary boundary, note, draft, or check-in instead.',
+    repairAction: 'Offer clarification, apology, boundary, changed behavior, or a truthful follow-up conversation.',
+    followUp: 'Review the situation after emotion settles and decide whether another repair step is needed.',
+    renewalReceipt: 'Write a private receipt: what I felt, what I chose, what I repaired, and what I learned.',
+  },
+  'Product decision': {
+    drift: 'A product move may optimize growth while weakening consent, clarity, trust, or support load.',
+    immediateStabilization: 'Hold the decision until user impact, opt-out, rollback, and support paths are visible.',
+    affectedRepair: 'Name users, customers, maintainers, support, partners, and public trust affected by the decision.',
+    reversibleAction: 'Use experiments, beta cohorts, opt-in toggles, rollback windows, and transparent change notes.',
+    repairAction: 'Change the product path to preserve agency, reduce surprise, and add support or reversal tools.',
+    followUp: 'Review adoption, complaint, support, and trust signals after the change.',
+    renewalReceipt: 'Record what changed, why, who was affected, and how repair remains available.',
+  },
+  Other: starterRepairPlan,
 };
 
 function hash(input) {
@@ -118,7 +161,7 @@ function evaluate(text) {
   const watchSignals = [];
   const consent = /consent|permission|affected|community|team|people|user|resident/.test(lower);
   const evidence = /evidence|claim|promise|receipt|audit|data|proof|release/.test(lower);
-  const irreversible = /irreversible|permanent|delete|public|publish|ship/.test(lower);
+  const irreversible = /irreversible|permanent|delete|public|publish|ship|deploy|final/.test(lower);
   const harm = /harm|unsafe|medical|legal|financial|threat|coerce|force/.test(lower);
   if (consent) watchSignals.push('Affected parties or consent boundaries may need to be named.');
   if (evidence) watchSignals.push('Evidence, assumptions, and unknowns should be separated.');
@@ -132,6 +175,21 @@ function evaluate(text) {
   };
 }
 
+function assessReversibility(scenario, fields, repairPlan, gateStates) {
+  const text = `${scenario} ${fields.action} ${fields.outcome} ${repairPlan.reversibleAction}`.toLowerCase();
+  const blockers = gateStates.filter((gate) => gate.status === 'block').length;
+  const hardWords = /permanent|irreversible|delete|public|publish|legal|medical|financial|unsafe|deploy|ship|contract|final/.test(text);
+  const safetyWords = /pause|rollback|sandbox|draft|test|review|temporary|opt-in|staged|backup|flag|reversible|undo|delay/.test(text);
+  const score = Math.max(0, Math.min(4, (safetyWords ? 2 : 0) + (blockers === 0 ? 1 : 0) + (!hardWords ? 1 : 0) - blockers));
+  const label = score >= 3 ? 'reversible' : score === 2 ? 'guarded' : 'hard-stop';
+  const guidance = [];
+  if (blockers > 0) guidance.push('At least one governance gate is blocking. Do not settle action until the block has a repair path.');
+  if (hardWords) guidance.push('Irreversible or high-impact language is present. Prefer draft, pause, sandbox, staged rollout, or explicit rollback.');
+  if (!safetyWords) guidance.push('Add a visible rollback, delay, opt-in, sandbox, backup, or review step before action settles.');
+  if (guidance.length === 0) guidance.push('This action appears repair-capable. Keep the receipt and follow-up check visible.');
+  return { score, label, guidance };
+}
+
 function makeShareUrl(scenario, scenarioType, activeStep) {
   if (typeof window === 'undefined') return '';
   const url = new URL(window.location.href);
@@ -141,9 +199,9 @@ function makeShareUrl(scenario, scenarioType, activeStep) {
   return url.toString();
 }
 
-function makeReceipt(scenario, scenarioType, fields, gateStates, shareUrl) {
+function makeReceipt(scenario, scenarioType, fields, repairPlan, reversibilityAssessment, gateStates, shareUrl) {
   const gateCounts = summarizeGates(gateStates);
-  const identity = JSON.stringify({ scenario, scenarioType, fields, gateStates });
+  const identity = JSON.stringify({ scenario, scenarioType, fields, repairPlan, gateStates });
   return {
     id: `fcr-${hash(identity)}`,
     model: 'Flow Covenant Runtime',
@@ -152,6 +210,8 @@ function makeReceipt(scenario, scenarioType, fields, gateStates, shareUrl) {
     scenarioType,
     scenario,
     ...fields,
+    repairPlan,
+    reversibilityAssessment,
     gateSummary: gateStates,
     gateCounts,
     shareUrl,
@@ -160,7 +220,7 @@ function makeReceipt(scenario, scenarioType, fields, gateStates, shareUrl) {
 }
 
 function receiptToMarkdown(receipt) {
-  return `# Flow Covenant Receipt ${receipt.id}\n\n**Scenario type:** ${receipt.scenarioType}\n\n**Created:** ${receipt.createdAt}\n\n**Gate summary:** ${receipt.gateCounts.pass} pass · ${receipt.gateCounts.watch} watch · ${receipt.gateCounts.block} block\n\n## Scenario\n\n${receipt.scenario}\n\n## Runtime fields\n\n- **Signal:** ${receipt.signal}\n- **Invitation:** ${receipt.invitation}\n- **Affected parties:** ${receipt.affectedParties}\n- **Consent:** ${receipt.consent}\n- **Alignment:** ${receipt.alignment}\n- **Action:** ${receipt.action}\n- **Outcome:** ${receipt.outcome}\n- **Renewal:** ${receipt.renewal}\n\n## Evidence posture\n\n- **Evidence:** ${receipt.evidence}\n- **Assumptions:** ${receipt.assumptions}\n- **Unknowns:** ${receipt.unknowns}\n\n## Share URL\n\n${receipt.shareUrl}\n\n## Claim-safe boundary\n\n${receipt.claimBoundary}\n\n\`\`\`json\n${JSON.stringify(receipt, null, 2)}\n\`\`\``;
+  return `# Flow Covenant Receipt ${receipt.id}\n\n**Scenario type:** ${receipt.scenarioType}\n\n**Created:** ${receipt.createdAt}\n\n**Gate summary:** ${receipt.gateCounts.pass} pass · ${receipt.gateCounts.watch} watch · ${receipt.gateCounts.block} block\n\n**Reversibility:** ${receipt.reversibilityAssessment.label} (${receipt.reversibilityAssessment.score}/4)\n\n## Scenario\n\n${receipt.scenario}\n\n## Runtime fields\n\n- **Signal:** ${receipt.signal}\n- **Invitation:** ${receipt.invitation}\n- **Affected parties:** ${receipt.affectedParties}\n- **Consent:** ${receipt.consent}\n- **Alignment:** ${receipt.alignment}\n- **Action:** ${receipt.action}\n- **Outcome:** ${receipt.outcome}\n- **Renewal:** ${receipt.renewal}\n\n## Repair plan\n\n- **Drift:** ${receipt.repairPlan.drift}\n- **Immediate stabilization:** ${receipt.repairPlan.immediateStabilization}\n- **Affected repair:** ${receipt.repairPlan.affectedRepair}\n- **Reversible action:** ${receipt.repairPlan.reversibleAction}\n- **Repair action:** ${receipt.repairPlan.repairAction}\n- **Follow-up:** ${receipt.repairPlan.followUp}\n- **Renewal receipt:** ${receipt.repairPlan.renewalReceipt}\n\n## Reversibility helper\n\n${receipt.reversibilityAssessment.guidance.map((item) => `- ${item}`).join('\n')}\n\n## Evidence posture\n\n- **Evidence:** ${receipt.evidence}\n- **Assumptions:** ${receipt.assumptions}\n- **Unknowns:** ${receipt.unknowns}\n\n## Share URL\n\n${receipt.shareUrl}\n\n## Claim-safe boundary\n\n${receipt.claimBoundary}\n\n~~~json\n${JSON.stringify(receipt, null, 2)}\n~~~`;
 }
 
 async function copyText(text) {
@@ -184,7 +244,7 @@ function downloadText(filename, text, type) {
 function dedupeById(records) {
   const map = new Map();
   records.forEach((record) => map.set(record.id, record));
-  return Array.from(map.values()).sort((a, b) => String(b.updatedAt || b.createdAt).localeCompare(String(a.updatedAt || a.createdAt)));
+  return Array.from(map.values()).sort((a, b) => String(b.updatedAt || b.savedAt || b.createdAt).localeCompare(String(a.updatedAt || a.savedAt || a.createdAt)));
 }
 
 function LoopDiagram({ active, onSelect }) {
@@ -195,11 +255,7 @@ function LoopDiagram({ active, onSelect }) {
       {steps.map((step, index) => {
         const angle = (index / steps.length) * 360 - 90;
         const transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-192px) rotate(${-angle}deg)`;
-        return (
-          <button key={step.id} className={`loopNode ${active === step.id ? 'active' : ''}`} style={{ transform }} onClick={() => onSelect(step.id)}>
-            <span>{step.number}</span><b>{step.title}</b>
-          </button>
-        );
+        return <button key={step.id} className={`loopNode ${active === step.id ? 'active' : ''}`} style={{ transform }} onClick={() => onSelect(step.id)}><span>{step.number}</span><b>{step.title}</b></button>;
       })}
     </div>
   );
@@ -210,6 +266,7 @@ export default function App() {
   const [scenario, setScenario] = useState(() => getSearchParam('scenario', samples[0].text));
   const [scenarioType, setScenarioType] = useState(() => getSearchParam('type', samples[0].domain));
   const [receiptFields, setReceiptFields] = useState(starterReceipt);
+  const [repairPlan, setRepairPlan] = useState(starterRepairPlan);
   const [gateStates, setGateStates] = useState(gates.map(([id]) => ({ gateId: id, status: 'watch', note: '' })));
   const [notice, setNotice] = useState('');
   const [savedScenarios, setSavedScenarios] = useLocalState('fcr.savedScenarios.v1', []);
@@ -219,22 +276,36 @@ export default function App() {
   const currentStep = steps.find((step) => step.id === active) ?? steps[0];
   const evaluation = useMemo(() => evaluate(scenario), [scenario]);
   const shareUrl = useMemo(() => makeShareUrl(scenario, scenarioType, active), [scenario, scenarioType, active]);
-  const receipt = useMemo(() => makeReceipt(scenario, scenarioType, receiptFields, gateStates, shareUrl), [scenario, scenarioType, receiptFields, gateStates, shareUrl]);
+  const reversibilityAssessment = useMemo(() => assessReversibility(scenario, receiptFields, repairPlan, gateStates), [scenario, receiptFields, repairPlan, gateStates]);
+  const receipt = useMemo(() => makeReceipt(scenario, scenarioType, receiptFields, repairPlan, reversibilityAssessment, gateStates, shareUrl), [scenario, scenarioType, receiptFields, repairPlan, reversibilityAssessment, gateStates, shareUrl]);
   const markdownReceipt = useMemo(() => receiptToMarkdown(receipt), [receipt]);
   const gateCounts = receipt.gateCounts;
 
   const flash = (message) => { setNotice(message); setTimeout(() => setNotice(''), 1800); };
   const setField = (key, value) => setReceiptFields((current) => ({ ...current, [key]: value }));
+  const setRepairField = (key, value) => setRepairPlan((current) => ({ ...current, [key]: value }));
   const setGate = (gateId, patch) => setGateStates((current) => current.map((gate) => (gate.gateId === gateId ? { ...gate, ...patch } : gate)));
-  const applySample = (sample) => { setScenario(sample.text); setScenarioType(sample.domain); setActive('signal'); };
+  const applySample = (sample) => { setScenario(sample.text); setScenarioType(sample.domain); setActive('signal'); setRepairPlan(repairTemplates[sample.domain] || starterRepairPlan); };
+  const applyRepairTemplate = () => { setRepairPlan(repairTemplates[scenarioType] || starterRepairPlan); flash('Repair template applied'); };
+  const draftRepairFromScenario = () => {
+    setRepairPlan((current) => ({
+      ...current,
+      drift: scenario,
+      immediateStabilization: evaluation.risk === 'high' ? 'Pause action, name the risk, and choose a reversible next move before settlement.' : 'Slow down enough to name affected parties, evidence, and repair paths.',
+      reversibleAction: 'Use a draft, pause, sandbox, staged rollout, review window, backup, opt-in, or rollback path before final action.',
+      followUp: 'Review the repair after the next meaningful signal or within an agreed time window.',
+    }));
+    flash('Repair draft generated from scenario');
+  };
 
   const scenarioSnapshot = () => ({
-    id: `scenario-${hash(JSON.stringify({ scenario, scenarioType, receiptFields, gateStates }))}`,
+    id: `scenario-${hash(JSON.stringify({ scenario, scenarioType, receiptFields, repairPlan, gateStates }))}`,
     title: scenario.slice(0, 82) || 'Untitled scenario',
     scenario,
     scenarioType,
     active,
     receiptFields,
+    repairPlan,
     gateStates,
     updatedAt: new Date().toISOString(),
   });
@@ -250,6 +321,7 @@ export default function App() {
     setScenarioType(record.scenarioType || 'Other');
     setActive(record.active || 'signal');
     setReceiptFields(record.receiptFields || starterReceipt);
+    setRepairPlan(record.repairPlan || starterRepairPlan);
     setGateStates(record.gateStates || gates.map(([id]) => ({ gateId: id, status: 'watch', note: '' })));
     flash('Scenario loaded');
   };
@@ -266,6 +338,7 @@ export default function App() {
     setReceiptFields({
       signal: record.signal || '', invitation: record.invitation || '', affectedParties: record.affectedParties || '', consent: record.consent || '', alignment: record.alignment || '', action: record.action || '', outcome: record.outcome || '', renewal: record.renewal || '', evidence: record.evidence || '', assumptions: record.assumptions || '', unknowns: record.unknowns || '',
     });
+    setRepairPlan(record.repairPlan || starterRepairPlan);
     setGateStates(record.gateSummary || gateStates);
     setActive('receipt');
     flash('Receipt replayed into builder');
@@ -310,7 +383,7 @@ export default function App() {
           <p className="lead">Move from force-first law thinking into participation-first flow thinking.</p>
           <div className="formula">Force creates compliance. Flow creates participation.</div>
           <nav className="actions" aria-label="Page sections">
-            <a href="#about">About</a><a href="#loop">Explore loop</a><a href="#simulator">Simulator</a><a href="#receipt">Build receipt</a><a href="#library">Library</a>
+            <a href="#about">About</a><a href="#loop">Explore loop</a><a href="#simulator">Simulator</a><a href="#gates">Gates</a><a href="#repair">Repair</a><a href="#receipt">Receipt</a><a href="#library">Library</a>
           </nav>
         </div>
         <aside className="boundary"><b>Claim-safe boundary</b><p>{claimBoundary}</p></aside>
@@ -341,7 +414,7 @@ export default function App() {
         <p className="eyebrow">Law vs flow simulator</p>
         <h2>Turn a scenario into two decision paths</h2>
         <div className="samples">{samples.map((sample) => <button key={sample.title} onClick={() => applySample(sample)}><b>{sample.title}</b><span>{sample.domain}</span></button>)}</div>
-        <div className="scenarioEditor"><label>Scenario type<select value={scenarioType} onChange={(event) => setScenarioType(event.target.value)}>{scenarioTypes.map((type) => <option key={type} value={type}>{type}</option>)}</select></label><label>Scenario<textarea value={scenario} onChange={(event) => setScenario(event.target.value)} /></label></div>
+        <div className="scenarioEditor"><label>Scenario type<select value={scenarioType} onChange={(event) => { setScenarioType(event.target.value); setRepairPlan(repairTemplates[event.target.value] || starterRepairPlan); }}>{scenarioTypes.map((type) => <option key={type} value={type}>{type}</option>)}</select></label><label>Scenario<textarea value={scenario} onChange={(event) => setScenario(event.target.value)} /></label></div>
         <div className="shareBox"><b>Shareable scenario URL</b><input value={shareUrl} readOnly /><button onClick={() => copyText(shareUrl).then(() => flash('Share link copied'))}>Copy link</button><button className="secondary" onClick={saveScenario}>Save scenario</button></div>
         <div className="paths"><article><h3>Law-thinking path</h3><ol>{evaluation.lawPath.map((item) => <li key={item}>{item}</li>)}</ol></article><article className="flow"><h3>Flow-thinking path</h3><ol>{evaluation.flowPath.map((item) => <li key={item}>{item}</li>)}</ol></article></div>
         <div className={`risk ${evaluation.risk}`}><b>Risk level: {evaluation.risk}</b>{evaluation.watchSignals.length ? <ul>{evaluation.watchSignals.map((item) => <li key={item}>{item}</li>)}</ul> : <p>No major watch signal detected. Still run the gates before settlement.</p>}</div>
@@ -351,6 +424,16 @@ export default function App() {
         <p className="eyebrow">Governance gates</p><h2>Check the field before action settles</h2>
         <div className="gateSummary"><span><b>{gateCounts.pass}</b> pass</span><span><b>{gateCounts.watch}</b> watch</span><span><b>{gateCounts.block}</b> block</span></div>
         <div className="gates">{gates.map(([id, title, prompt]) => { const gate = gateStates.find((item) => item.gateId === id) || { status: 'watch', note: '' }; return <article key={id} className={gate.status}><div><h3>{title}</h3><p>{prompt}</p></div><label>Status<select value={gate.status} onChange={(e) => setGate(id, { status: e.target.value })}><option value="pass">Pass</option><option value="watch">Watch</option><option value="block">Block</option></select></label><label>Note<input value={gate.note} onChange={(e) => setGate(id, { note: e.target.value })} /></label></article>; })}</div>
+      </section>
+
+      <section className="panel" id="repair">
+        <p className="eyebrow">Repair builder / Reversibility helper</p><h2>Turn drift into a clean repair path</h2>
+        <p className="sectionLead">Repair does not excuse harm or erase accountability. It names what drifted, protects affected parties, chooses reversible action where possible, and records a renewal receipt.</p>
+        <div className="repairToolbar"><button onClick={applyRepairTemplate}>Apply {scenarioType} template</button><button className="secondary" onClick={draftRepairFromScenario}>Draft from scenario</button><button className="secondary" onClick={() => setActive('renewal')}>Jump to Renewal step</button></div>
+        <div className="repairLayout">
+          <div className="repairFields">{Object.entries(repairPlan).map(([key, value]) => <label key={key}>{key}<textarea value={value} onChange={(event) => setRepairField(key, event.target.value)} /></label>)}</div>
+          <aside className={`repairHelper ${reversibilityAssessment.label}`}><p className="eyebrow">Reversibility score</p><div className="score"><b>{reversibilityAssessment.score}/4</b><span>{reversibilityAssessment.label}</span></div><h3>Helper guidance</h3><ul>{reversibilityAssessment.guidance.map((item) => <li key={item}>{item}</li>)}</ul><p className="helperNote">A hard-stop does not mean punishment-first. It means pause, protect, and make the next move repair-capable before action settles.</p></aside>
+        </div>
       </section>
 
       <section className="panel" id="receipt">
