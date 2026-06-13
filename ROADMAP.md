@@ -44,11 +44,12 @@
 
 ## v0.6 — Guided Mode
 
-- Step-by-step wizard
-- Better validation feedback
-- More example scenarios
-- Keyboard-first polish
-- Session timer and facilitator mode
+- Step-by-step wizard for the full FCR loop
+- Guided completion meter
+- Context -> finish flow for first-time users and facilitators
+- Guided session save and replay support
+- Additional example scenarios
+- Keyboard-friendly button flow and improved disabled states
 
 ## v0.7 — Practice Evidence Pack
 
@@ -56,3 +57,5 @@
 - Example receipts by domain
 - Lightweight test fixtures
 - Accessibility review checklist
+- Better validation feedback
+- Session timer and facilitator mode
