@@ -68,3 +68,19 @@
 - Exportable facilitator packet
 - Stronger validation feedback
 - More accessibility and print checks
+
+## v0.9 — Testing and Hardening
+
+- Add Vitest smoke tests for receipt, packet, and reversibility helpers
+- Add schema examples and validation fixtures
+- Add no-network / local-first guard notes
+- Add pre-release checklist for v1.0
+- Improve empty-state and import error feedback
+
+## v1.0 — Public Stable
+
+- Stable public app structure
+- Public-safe docs complete
+- Reproducible build and release notes
+- Example library and facilitator packet ready for workshops
+- Claim boundary and local-first guarantees reviewed
