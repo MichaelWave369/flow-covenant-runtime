@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://michaelwave369.github.io/flow-covenant-runtime/schemas/guided-session.schema.json",
+  "title": "Flow Covenant Guided Session",
+  "type": "object",
+  "required": ["id", "scenario", "scenarioType", "guidedIndex", "receiptFields", "repairPlan", "gateStates", "updatedAt"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^scenario-[a-f0-9]{8}$" },
+    "title": { "type": "string" },
+    "scenario": { "type": "string" },
+    "scenarioType": { "type": "string" },
+    "active": { "type": "string" },
+    "guidedIndex": { "type": "integer", "minimum": 0 },
+    "receiptFields": { "type": "object" },
+    "repairPlan": { "type": "object" },
+    "gateStates": { "type": "array" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": true
+}
