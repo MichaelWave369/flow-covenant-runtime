@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://michaelwave369.github.io/flow-covenant-runtime/schemas/repair-plan.schema.json",
+  "title": "Flow Covenant Repair Plan",
+  "type": "object",
+  "required": ["drift", "immediateStabilization", "affectedRepair", "reversibleAction", "repairAction", "followUp", "renewalReceipt"],
+  "properties": {
+    "drift": { "type": "string" },
+    "immediateStabilization": { "type": "string" },
+    "affectedRepair": { "type": "string" },
+    "reversibleAction": { "type": "string" },
+    "repairAction": { "type": "string" },
+    "followUp": { "type": "string" },
+    "renewalReceipt": { "type": "string" }
+  },
+  "additionalProperties": false
+}
