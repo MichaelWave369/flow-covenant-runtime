@@ -1,8 +1,8 @@
 # v1.0 Release Checklist
 
-Flow Covenant Runtime should only be called stable after these gates pass.
+Flow Covenant Runtime can be called stable after these gates pass.
 
-Current status: **v1.0.0-rc.1 candidate**.
+Current status: **v1.0.0 stable**.
 
 ## Public-safe claim gate
 
@@ -48,9 +48,9 @@ Current status: **v1.0.0-rc.1 candidate**.
 - [x] `node scripts/smoke-check.mjs` is included in the check path.
 - [x] `node scripts/local-first-guard.mjs` is included in the check path.
 - [x] App runtime version is synced from `package.json` during dev/build/check.
-- [ ] GitHub Pages deploy is green for v1.0.0-rc.1.
-- [ ] Live app is manually smoke-tested after deploy.
+- [x] GitHub Pages deploy was green for v1.0.0-rc.1.
+- [x] Live app was manually smoke-tested after deploy.
 
-## Stable promotion rule
+## Stable promotion record
 
-Promote from `v1.0.0-rc.1` to `v1.0.0` only after the final two release-gate items are verified.
+Promoted from `v1.0.0-rc.1` to `v1.0.0` after the final release-gate items were verified.
