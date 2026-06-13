@@ -36,10 +36,11 @@
 
 ## v0.5 — Public Practice Pack
 
-- Printable worksheets
-- Workshop guide
+- Printable worksheet
+- 60-minute workshop guide
 - Public decision-card deck
-- Accessibility pass
+- In-app practice pack section
+- Print stylesheet pass
 
 ## v0.6 — Guided Mode
 
@@ -47,3 +48,11 @@
 - Better validation feedback
 - More example scenarios
 - Keyboard-first polish
+- Session timer and facilitator mode
+
+## v0.7 — Practice Evidence Pack
+
+- More worked examples
+- Example receipts by domain
+- Lightweight test fixtures
+- Accessibility review checklist
