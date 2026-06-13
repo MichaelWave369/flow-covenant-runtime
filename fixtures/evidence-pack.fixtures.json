@@ -1,0 +1,49 @@
+{
+  "model": "Flow Covenant Runtime Evidence Fixtures",
+  "version": "0.7.0",
+  "claimBoundary": "This is a philosophy and systems-design model, not a claim that physical laws literally want, think, or feel.",
+  "fixtures": [
+    {
+      "id": "fixture-ai-claim-boundary",
+      "domain": "AI collaboration",
+      "scenario": "A user asks an AI assistant to publish a poetic metaphor as a strong factual claim.",
+      "expectedGateStatuses": {
+        "consent": "watch",
+        "harm": "watch",
+        "claim": "block",
+        "evidence": "block",
+        "reversibility": "watch",
+        "repair": "watch"
+      },
+      "expectedRepairMove": "Rewrite as philosophy, design pattern, or hypothesis; keep evidence, assumptions, and unknowns visible."
+    },
+    {
+      "id": "fixture-release-rollback",
+      "domain": "Software workflow",
+      "scenario": "A release is being rushed before rollback, staging, and receipt capture are ready.",
+      "expectedGateStatuses": {
+        "consent": "watch",
+        "harm": "watch",
+        "claim": "pass",
+        "evidence": "watch",
+        "reversibility": "block",
+        "repair": "watch"
+      },
+      "expectedRepairMove": "Ship behind a flag, sandbox, or staged rollout with documented rollback owner."
+    },
+    {
+      "id": "fixture-public-promise",
+      "domain": "Community governance",
+      "scenario": "A community hears a public promise, but records and accountability paths are unclear.",
+      "expectedGateStatuses": {
+        "consent": "watch",
+        "harm": "watch",
+        "claim": "watch",
+        "evidence": "block",
+        "reversibility": "watch",
+        "repair": "watch"
+      },
+      "expectedRepairMove": "Create a public receipt packet that separates measured, promised, claimed, unknown, and disputed items."
+    }
+  ]
+}
