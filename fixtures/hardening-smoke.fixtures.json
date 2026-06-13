@@ -1,0 +1,31 @@
+{
+  "model": "Flow Covenant Runtime Hardening Fixtures",
+  "version": "0.9.0",
+  "claimBoundary": "This is a philosophy and systems-design model, not a claim that physical laws literally want, think, or feel.",
+  "fixtures": [
+    {
+      "id": "hardening-claim-boundary",
+      "domain": "AI collaboration",
+      "scenario": "A poetic metaphor is being prepared for public release.",
+      "expectedGate": "claim",
+      "expectedStatus": "block",
+      "expectedRepair": "Rewrite as philosophy, design pattern, or hypothesis before publishing."
+    },
+    {
+      "id": "hardening-release-rollback",
+      "domain": "Software workflow",
+      "scenario": "A team is preparing to ship without a rollback path.",
+      "expectedGate": "reversibility",
+      "expectedStatus": "block",
+      "expectedRepair": "Add staged rollout, backup, feature flag, and explicit rollback owner."
+    },
+    {
+      "id": "hardening-community-promise",
+      "domain": "Community governance",
+      "scenario": "A public promise is being discussed without records or follow-up ownership.",
+      "expectedGate": "evidence",
+      "expectedStatus": "watch",
+      "expectedRepair": "Separate measured, promised, claimed, unknown, and disputed records."
+    }
+  ]
+}
