@@ -1,0 +1,21 @@
+{
+  "name": "flow-covenant-runtime",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "A local-first interactive React app for the Flow Covenant Runtime: a playfield governance model for coherent systems.",
+  "homepage": "https://michaelwave369.github.io/flow-covenant-runtime/",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "author": "Michael W. Hughes",
+  "license": "MIT",
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

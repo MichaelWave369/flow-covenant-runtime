@@ -1,0 +1,14 @@
+{
+  "scenario": "A user asks an AI assistant to turn a poetic idea into a public claim, but the evidence is still early and mostly metaphorical.",
+  "signal": "A strong idea has appeared, but claim-risk is present.",
+  "invitation": "Develop the idea as a philosophy and systems-design scaffold.",
+  "affectedParties": "User, readers, collaborators, future builders.",
+  "consent": "The user wants development, but public readers need clear boundaries.",
+  "alignment": "Keep beauty and accountability together. Separate metaphor from proof.",
+  "action": "Create public-safe docs, app, schemas, and receipt builder.",
+  "outcome": "The idea becomes usable without overclaiming.",
+  "renewal": "Review language, add falsifiers, and adjust if readers misunderstand.",
+  "evidence": "User-provided concept, master spec, governance gates, claim boundary.",
+  "assumptions": "A local-first app helps make the model practical.",
+  "unknowns": "Which communities will find the first use case most helpful."
+}
