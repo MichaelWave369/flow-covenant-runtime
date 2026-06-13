@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://michaelwave369.github.io/flow-covenant-runtime/schemas/facilitator-packet.schema.json",
+  "title": "Flow Covenant Facilitator Packet",
+  "type": "object",
+  "required": ["id", "model", "version", "createdAt", "timerRemaining", "roomPrompts", "validation", "decisionSummary", "receipt", "claimBoundary"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^fcr-facilitator-[a-f0-9]{8}$" },
+    "model": { "const": "Flow Covenant Runtime Facilitator Packet" },
+    "version": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "timerRemaining": { "type": "string" },
+    "roomPrompts": { "type": "array" },
+    "validation": {
+      "type": "object",
+      "required": ["passed", "total", "ready", "checks"],
+      "properties": {
+        "passed": { "type": "integer" },
+        "total": { "type": "integer" },
+        "ready": { "type": "boolean" },
+        "checks": { "type": "array" }
+      }
+    },
+    "decisionSummary": {
+      "type": "object",
+      "required": ["sessionTitle", "mode", "purpose", "scenarioType", "scenario", "gateCounts", "reversibility", "decisionOwner", "closeoutSummary"],
+      "properties": {
+        "sessionTitle": { "type": "string" },
+        "mode": { "type": "string" },
+        "purpose": { "type": "string" },
+        "scenarioType": { "type": "string" },
+        "scenario": { "type": "string" },
+        "gateCounts": { "type": "object" },
+        "reversibility": { "type": "string" },
+        "decisionOwner": { "type": "string" },
+        "followUpDate": { "type": "string" },
+        "closeoutSummary": { "type": "string" },
+        "parkingLot": { "type": "string" }
+      }
+    },
+    "receipt": { "type": "object" },
+    "claimBoundary": { "type": "string", "pattern": "physical laws" }
+  },
+  "additionalProperties": true
+}
