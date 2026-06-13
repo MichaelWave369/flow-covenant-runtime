@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://michaelwave369.github.io/flow-covenant-runtime/schemas/practice-session.schema.json",
+  "title": "Flow Covenant Practice Session",
+  "type": "object",
+  "required": ["model", "version", "scenario", "scenarioType", "facilitatorNotes", "gateSummary", "repairPlan", "receiptId", "claimBoundary"],
+  "properties": {
+    "model": { "const": "Flow Covenant Runtime Practice Session" },
+    "version": { "type": "string" },
+    "scenario": { "type": "string" },
+    "scenarioType": { "type": "string" },
+    "facilitatorNotes": { "type": "string" },
+    "gateSummary": { "type": "array" },
+    "repairPlan": { "type": "object" },
+    "receiptId": { "type": "string" },
+    "claimBoundary": { "type": "string", "pattern": "physical laws" }
+  },
+  "additionalProperties": true
+}
