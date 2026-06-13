@@ -20,8 +20,9 @@ FCR keeps boundaries, evidence, law, accountability, consent, and repair visible
 
 ## Interactive app
 
-The v0.7 app includes:
+The v0.8 app includes:
 
+- Facilitator Mode with session timer, room prompts, decision summary, closeout checks, and facilitator packet export
 - Guided Mode wizard for walking the whole loop step by step
 - Guided completion meter and session save path
 - About / Manifesto section
@@ -38,6 +39,21 @@ The v0.7 app includes:
 - Local saved scenario and receipt libraries using browser storage
 - Import / replay for receipts and full library bundles
 - Public-safe docs, schemas, example receipts, and GitHub Pages workflow
+
+## Facilitator Mode
+
+Facilitator Mode is for people running a live room, team review, release check, community session, or reflection process.
+
+It adds:
+
+- Session presets
+- Timer controls
+- Room-mode prompts
+- Decision summary
+- Closeout validation checks
+- Exportable facilitator packets in Markdown and JSON
+
+See [`docs/facilitator-mode.md`](./docs/facilitator-mode.md).
 
 ## Guided Mode
 
