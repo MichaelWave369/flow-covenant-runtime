@@ -1,0 +1,36 @@
+{
+  "id": "fcr-facilitator-example",
+  "model": "Flow Covenant Runtime Facilitator Packet",
+  "version": "0.8.0",
+  "createdAt": "2026-06-13T00:00:00.000Z",
+  "timerRemaining": "12:00",
+  "decisionSummary": {
+    "sessionTitle": "Team Review",
+    "mode": "team-review",
+    "purpose": "Move a release decision through gates, rollback, receipt, and follow-up.",
+    "scenarioType": "Software workflow",
+    "scenario": "A team wants to ship before rollback and receipts are ready.",
+    "gateCounts": { "pass": 3, "watch": 2, "block": 1, "total": 6 },
+    "reversibility": "guarded",
+    "decisionOwner": "Release owner",
+    "followUpDate": "TBD",
+    "closeoutSummary": "Ship is paused until rollback and receipt capture are visible.",
+    "parkingLot": "Support-load estimate and customer notice wording."
+  },
+  "validation": {
+    "passed": 5,
+    "total": 6,
+    "ready": false,
+    "checks": [
+      { "label": "Scenario is named", "ok": true },
+      { "label": "Affected parties are visible", "ok": true },
+      { "label": "Evidence boundary exists", "ok": true },
+      { "label": "Repair path exists", "ok": true },
+      { "label": "No gate is silently blocking", "ok": false },
+      { "label": "Facilitator follow-up is named", "ok": true }
+    ]
+  },
+  "roomPrompts": [],
+  "receipt": {},
+  "claimBoundary": "This is a philosophy and systems-design model, not a claim that physical laws literally want, think, or feel."
+}
